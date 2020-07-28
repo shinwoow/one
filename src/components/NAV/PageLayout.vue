@@ -4,9 +4,7 @@
       <page-header></page-header>
       <el-container>
         <el-main class="page-main">
-          <el-card class="page-main-card" shadow="hover">
-            <router-view></router-view>
-          </el-card>
+          <router-view></router-view>
         </el-main>
         <page-aside></page-aside>
       </el-container>

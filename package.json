@@ -61,7 +61,8 @@
       "semi": [
         "error",
         "always"
-      ]
+      ],
+      "space-before-fnction-paren": 0
     }
   },
   "browserslist": [
