@@ -1,12 +1,7 @@
 <template>
   <div class="home" @click="handleClick">
     <el-card class="page-main-card" shadow="hover">
-      <el-input
-        type="textarea"
-        placeholder="写点什么..."
-        :rows="2"
-        v-model="noteText"
-      ></el-input>
+      <el-input type="textarea" placeholder="写点什么..." :rows="2" v-model="noteText"></el-input>
     </el-card>
 
     <el-card
@@ -15,9 +10,7 @@
       v-for="item in noteList"
       :key="item.id"
     >
-      <div slot="header">
-        {{ item.date }}
-      </div>
+      <div slot="header">{{ item.date }}</div>
       <div>{{ item.note }}</div>
     </el-card>
   </div>
@@ -30,17 +23,22 @@ export default {
   data() {
     return {
       noteText: "",
-      noteList: [{ date: "2010.1.2", note: "what" }]
+      noteList: [
+        { id: 0, date: "2010.1.2", note: "what" },
+        { id: 0, date: "2010.1.2", note: "what" },
+        { id: 0, date: "2010.1.2", note: "what" },
+        { id: 0, date: "2010.1.2", note: "what" }
+      ]
     };
   },
-  created() {
+  created () {
     console.time("1");
   },
-  mounted() {
+  mounted () {
     console.timeEnd("1");
   },
   methods: {
-    handleClick(e) {
+    handleClick (e) {
       console.log(e.target);
     }
   }
@@ -55,7 +53,6 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     &:focus {
-      
     }
   }
   .page-main-note {

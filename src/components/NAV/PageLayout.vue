@@ -6,7 +6,7 @@
         <el-main class="page-main">
           <router-view></router-view>
         </el-main>
-        <page-aside></page-aside>
+        <page-aside class="page-aside" width="200px"></page-aside>
       </el-container>
     </el-container>
   </div>
@@ -34,6 +34,9 @@ export default {
       left: 50%;
       transform: translateX(-50%);
     }
+  }
+  .page-aside {
+    background-color: #fff;
   }
 }
 </style>

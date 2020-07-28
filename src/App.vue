@@ -11,8 +11,10 @@ export default {
 </script>
 
 <style>
-html, body{
+html,
+body {
   height: 100%;
+  background-color: #eef7f2;
   padding: 0;
   margin: 0;
 }
@@ -21,6 +23,5 @@ html, body{
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: #eef7f2;
 }
 </style>
