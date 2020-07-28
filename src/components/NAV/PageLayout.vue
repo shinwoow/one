@@ -28,13 +28,14 @@ export default {
 };
 </script>
 <style lang="scss">
-.page-main {
-  .page-main-card {
-    width: 80%;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-
+.home {
+  .page-main {
+    .page-main-card {
+      width: 80%;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 </style>

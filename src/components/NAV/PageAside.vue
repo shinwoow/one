@@ -5,4 +5,4 @@
 import Vue from "vue";
 export default Vue.extend({});
 </script>
-<style lang="sass"></style>
+<style lang="scss"></style>

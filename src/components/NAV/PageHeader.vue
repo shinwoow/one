@@ -7,7 +7,7 @@ export default Vue.extend({});
 </script>
 <style lang="scss">
 .page-header {
-    width: 100%;
-    height: 48px;
-    }
+  width: 100%;
+  height: 48px;
+}
 </style>

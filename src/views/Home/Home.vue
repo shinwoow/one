@@ -1,40 +1,23 @@
 <template>
   <div class="home">
-    <el-container direction="vertical">
-      <page-header></page-header>
-      <el-container>
-        <el-main class="page-main">
-          <el-card class="page-main-card" shadow="hover">
-            <router-view></router-view>
-          </el-card>
-        </el-main>
-        <page-aside></page-aside>
-      </el-container>
-    </el-container>
+    home
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import PageHeader from "@/components/NAV/PageHeader.vue";
-import PageAside from "@/components/NAV/PageAside.vue";
-
 export default {
-  name: "Home",
-  components: {
-    PageHeader,
-    PageAside
-  }
+  name: "Home"
 };
 </script>
 <style lang="scss">
 .page-main {
+  height: 100%;
   .page-main-card {
     width: 80%;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-
   }
 }
 </style>
