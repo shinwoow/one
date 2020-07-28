@@ -39,11 +39,11 @@ module.exports = {
     //     target: "http://",
     //     changeOrigin: true
     //   }
-		// }
-		overlay: {
-			warnings: false,
-			errors: false 
-		}
-	},
-	lintOnSave: false
+    // }
+    overlay: {
+      warnings: false,
+      errors: false
+    }
+  },
+  lintOnSave: false
 };
