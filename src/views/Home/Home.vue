@@ -54,6 +54,9 @@ export default {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    &:focus {
+      
+    }
   }
   .page-main-note {
     margin-top: 20px;
