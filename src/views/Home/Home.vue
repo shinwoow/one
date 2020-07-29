@@ -48,9 +48,9 @@ export default {
 .page-main {
   height: 100%;
   .page-main-card {
-    width: 80%;
+    width: 70%;
     position: relative;
-    left: 50%;
+    left: 60%;
     transform: translateX(-50%);
     &:focus {
     }
