@@ -160,13 +160,15 @@ export default {
     });
     this.$message({
       type: "success",
-      message: "HAPPY DANCE！！！"
+      message: `audio文件加载中...
+      \n\r
+      HAPPY DANCE！！！`
     });
     console.timeEnd("1");
   },
   methods: {
     handleClick(e) {
-      console.log(e.target);
+      // console.log(e.target);
     }
   }
 };
@@ -179,7 +181,7 @@ export default {
     position: relative;
     left: 60%;
     transform: translateX(-50%);
-    transition: 0.3s ease transform;
+    transition: 0.3s cubic-bezier(0.93, 1.86, 1, 1.62) transform;
     animation: linear-border 1s ease infinite;
     // background会覆盖el-card的样式
     // background: linear-gradient(0, #108b96 2px, #108b96 2px) no-repeat,
