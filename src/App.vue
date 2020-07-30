@@ -14,7 +14,8 @@ export default {
 html,
 body {
   height: 100%;
-  background-color: #eef7f2;
+  /* background-color: #fefefe; */
+  background-color: #fcfcfc;
   padding: 0;
   margin: 0;
 }

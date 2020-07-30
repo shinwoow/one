@@ -1,6 +1,11 @@
 <template>
-  <div class="home" @click="handleClick">
+  <div class="home" @click="handleSubmit">
     <el-card class="page-main-card" data-audio="0" shadow="hover">
+      <template slot="header">
+        <el-button type="danger" icon="el-icon-edit" size="small"
+          >写完了</el-button
+        >
+      </template>
       <el-input
         type="textarea"
         placeholder="写点什么..."
@@ -15,6 +20,7 @@
       v-for="item in noteList"
       :key="item.id"
       :data-audio="item.id + 1"
+      @click="handleClick"
     >
       <div slot="header">{{ item.date }}</div>
       <div>{{ item.note }}</div>
@@ -167,6 +173,13 @@ export default {
   methods: {
     handleClick(e) {
       console.log(e.target);
+    },
+    handleSubmit() {
+      console.log("???");
+      this.$api.notes.uploadNote({ params: "???" }).then(res => {
+        console.log(res);
+      });
+      console.log("ok");
     }
   }
 };

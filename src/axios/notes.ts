@@ -20,8 +20,11 @@ const notes = {
   // post提交
   login(params: Object) {
     return axios.post(`${base.sq}/accesstoken`, QS.stringify(params));
+  },
+  uploadNote(params: Object) {
+    console.log(params)
+    return axios.post(`${base.sq}/uploadNote`, QS.stringify(params));
   }
-  // 其他接口…………
 };
 
 export default notes;
