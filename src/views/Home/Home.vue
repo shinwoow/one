@@ -96,7 +96,7 @@ export default {
       }
 
       stop() {
-        const ct = this.context.currentTime + 0.5;
+        var ct = this.context.currentTime + 0.5;
         this.gainNode.gain.exponentialRampToValueAtTime(0.001, ct);
         this.source.stop(ct);
       }
@@ -110,7 +110,7 @@ export default {
       }
 
       loadSound(url, index) {
-        const request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("get", url, true);
         request.responseType = "arraybuffer";
         let thisBuffer = this;
@@ -136,6 +136,7 @@ export default {
       }
     }
     let guitar = null;
+
     function stopGuitar() {
       guitar.stop();
     }
@@ -150,7 +151,7 @@ export default {
       guitar = new Guitar(context, buffer.getSound(index));
       guitar.play();
     }
-    const audioCard = document.querySelectorAll(".page-main-card");
+    let audioCard = document.querySelectorAll(".page-main-card");
     audioCard.forEach(button => {
       button.addEventListener("mouseenter", playGuitar.bind(button));
       button.addEventListener("mouseleave", stopGuitar);
@@ -190,6 +191,10 @@ export default {
     &:hover {
       transform: translateX(-52%);
       // background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+      border-right: 1px solid;
+      border-image: -webkit-linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1; /* 控制边框颜色渐变 */
+      border-image: -moz-linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1;
+      border-image: linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1; /* 标准的必须写在最后 */
     }
     // @keyframes linear-border {
     //   background: ;
