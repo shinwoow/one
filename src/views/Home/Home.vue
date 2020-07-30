@@ -96,7 +96,7 @@ export default {
       }
 
       stop() {
-        var ct = this.context.currentTime + 0.5;
+        const ct = this.context.currentTime + 0.5;
         this.gainNode.gain.exponentialRampToValueAtTime(0.001, ct);
         this.source.stop(ct);
       }
@@ -110,7 +110,7 @@ export default {
       }
 
       loadSound(url, index) {
-        let request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open("get", url, true);
         request.responseType = "arraybuffer";
         let thisBuffer = this;
@@ -136,24 +136,21 @@ export default {
       }
     }
     let guitar = null;
-    let preset = 0;
-    let loaded = false;
-
     function stopGuitar() {
       guitar.stop();
     }
 
-    let context = new (window.AudioContext || window.webkitAudioContext)();
+    const context = new (window.AudioContext || window.webkitAudioContext)();
 
-    let buffer = new Buffer(context, this.sounds);
+    const buffer = new Buffer(context, this.sounds);
     buffer.getBuffer();
     function playGuitar() {
-      let index = parseInt(this.dataset.audio) + preset;
+      let index = parseInt(this.dataset.audio) + 0;
       index = index % (_this.sounds.length - 1);
       guitar = new Guitar(context, buffer.getSound(index));
       guitar.play();
     }
-    let audioCard = document.querySelectorAll(".page-main-card");
+    const audioCard = document.querySelectorAll(".page-main-card");
     audioCard.forEach(button => {
       button.addEventListener("mouseenter", playGuitar.bind(button));
       button.addEventListener("mouseleave", stopGuitar);
