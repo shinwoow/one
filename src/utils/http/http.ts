@@ -66,7 +66,7 @@ const instance = axios.create({ timeout: 1000 * 12 });
 // 设置post请求头为json格式接收
 instance.defaults.headers.post["Content-Type"] =
   "application/json;charset=UTF-8";
-
+instance.defaults.baseURL = "127.0.0.1:3000/api";
 /**
  * 请求拦截器
  * 每次请求前，如果存在token则在请求头中携带token
@@ -80,6 +80,7 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // const token = store.state.token;
     // token && (config.headers.Authorization = token);
+    console.log(config)
     return config;
   },
 

@@ -6,6 +6,8 @@ import base from "./base"; // 导入接口域名列表
 import axios from "@/utils/http/http.ts"; // 导入http中创建的axios实例
 import QS from 'qs'; // 根据需求是否导入qs模块
 
+const baseURL = "/notes"
+
 const notes = {
   // 新闻列表
   articleList() {
@@ -23,7 +25,7 @@ const notes = {
   },
   uploadNote(params: Object) {
     console.log(params)
-    return axios.post(`${base.sq}/uploadNote`, QS.stringify(params));
+    return axios.post(`${baseURL}/uploadNote`, QS.stringify(params));
   }
 };
 
