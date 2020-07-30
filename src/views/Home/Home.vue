@@ -166,12 +166,14 @@ export default {
   },
   methods: {
     handleClick(e) {
-      // console.log(e.target);
+      console.log(e.target);
     }
   }
 };
 </script>
 <style lang="scss">
+$purple: #6477b9;
+
 .page-main {
   height: 100%;
   .page-main-card {
@@ -181,24 +183,47 @@ export default {
     transform: translateX(-50%);
     transition: 0.3s cubic-bezier(0.93, 1.86, 1, 1.62) transform;
     animation: linear-border 1s ease infinite;
-    // background会覆盖el-card的样式
-    // background: linear-gradient(0, #108b96 2px, #108b96 2px) no-repeat,
-    //   linear-gradient(-90deg, #108b96 2px, #108b96 2px) no-repeat,
-    //   linear-gradient(-180deg, #108b96 2px, #108b96 2px) no-repeat,
-    //   linear-gradient(-270deg, #108b96 2px, #108b96 2px) no-repeat;
-    // background-size: 0 2px, 2px 0, 0 2px, 2px 0;
-    // background-position: left top, right top, right bottom, left bottom;
-    &:hover {
-      transform: translateX(-52%);
-      // background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
-      border-right: 1px solid;
+    box-sizing: border-box;
+    border: 0;
+
+    &::before,
+    &::after {
+      box-sizing: inherit;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transform-origin: center; // Ensure scaling is done from the center (expands outwards)
       border-image: -webkit-linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1; /* 控制边框颜色渐变 */
       border-image: -moz-linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1;
       border-image: linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1; /* 标准的必须写在最后 */
     }
-    // @keyframes linear-border {
-    //   background: ;
-    // }
+    // scale3d(<scale-horizontal>, <scale-vertical>, <scale-depth>);
+    &::before {
+      border-top: 2px solid;
+      border-bottom: 2px solid;
+      // border-image: -webkit-linear-gradient(#61649f, #9fa39a, #ffa60f) 1 10 1; /*
+      transform: scale3d(0, 1, 1); // Shrink only width
+    }
+
+    &::after {
+      border-right: 2px solid;
+      border-left: 2px solid;
+      transform: scale3d(1, 0, 1); // Shrink only height
+    }
+
+    &:hover::before,
+    &:hover::after {
+      transform: scale3d(1, 1, 1); // Show full-size
+      transition: transform 0.5s;
+    }
+
+    &:hover {
+      transform: translateX(-52%);
+      // background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+    }
   }
   .page-main-note {
     margin-top: 20px;
