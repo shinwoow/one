@@ -74,6 +74,7 @@ export default {
       "%c ",
       "background: url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2042085315,2752712319&fm=26&gp=0.jpg) no-repeat center;padding-left:640px;padding-bottom: 242px;"
     );
+    console.log(process.env.NODE_ENV)
     console.timeEnd("1");
   },
   // beforeDestroy() {

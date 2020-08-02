@@ -8,10 +8,10 @@ export default [
 	},
 	{
 		path: '/',
-		name: 'Home',
+		// name: 'Home',
 		component: PageLayout,
 		children: [{
-			path: 'home',
+			path: '/home',
 			name: 'home',
 			component: () => import('../views/Home/Home.vue')
 		}

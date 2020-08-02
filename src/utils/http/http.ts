@@ -68,7 +68,8 @@ const instance = axios.create({ timeout: 1000 * 12 });
 // 设置post请求头为json格式接收
 // instance.defaults.headers.post["Content-Type"] =
 //   "application/json;charset=UTF-8";
-instance.defaults.baseURL = process.env.NODE_ENV === "development" ? baseUrl.dev : baseUrl.dev;
+instance.defaults.baseURL = process.env.NODE_ENV === "development" ? baseUrl.dev : baseUrl.pro;
+
 /**
  * 请求拦截器
  * 每次请求前，如果存在token则在请求头中携带token

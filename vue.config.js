@@ -9,11 +9,19 @@ const resolve = dir => {
 module.exports = {
   publicPath: "/",
   outputDir: "dist",
-  assetsDir: "",
   indexPath: "index.html",
   filenameHashing: true,
   runtimeCompiler: false,
   transpileDependencies: [],
+  pwa: {
+    iconPaths: {
+      favicon32: "favicon.ico",
+      favicon16: "favicon.ico",
+      appleTouchIcon: "favicon.ico",
+      maskIcon: "favicon.ico",
+      msTileImage: "favicon.ico"
+    }
+  },
   chainWebpack: config => {
     config.resolve.alias
       .set("@", resolve("src"))
@@ -28,6 +36,15 @@ module.exports = {
         path.resolve(__dirname, "./src/assets/css/mixins.scss"),
         path.resolve(__dirname, "./src/assets/css/variable.scss")
       ]
+    },
+    pwa: {
+      iconPaths: {
+        favicon32: './favicon.ico',
+        favicon16: './favicon.ico',
+        appleTouchIcon: './favicon.ico',
+        maskIcon: './favicon.ico',
+        msTileImage: './favicon.ico'
+      }
     }
   },
   devServer: {
