@@ -1,5 +1,5 @@
 <template>
-  <el-aside width="200px" class="el-aside">
+  <el-aside width="260px" class="el-aside">
     <div class="aside-menu">
       <!-- <el-collapse>
         <el-collapse-item></el-collapse-item>
@@ -40,6 +40,11 @@ export default {
         color: salmon;
       }
     }
+  }
+}
+@media screen and (max-width: 960px) {
+  .el-aside {
+    display: none;
   }
 }
 </style>

@@ -67,105 +67,9 @@ export default {
   },
   created() {
     console.time("1");
-
-    this.$api.notes.getNoteList().then((res) => {
-      this.noteList = res.data;
-    });
+    this.getNotesList(true);
   },
   mounted() {
-    let _this = this;
-    class Guitar {
-      constructor(context, buffer) {
-        this.context = context;
-        this.buffer = buffer;
-      }
-
-      setup() {
-        this.gainNode = this.context.createGain();
-        this.source = this.context.createBufferSource();
-        this.source.buffer = this.buffer;
-        this.source.connect(this.gainNode);
-        this.gainNode.connect(this.context.destination);
-
-        this.gainNode.gain.setValueAtTime(0.8, this.context.currentTime);
-      }
-
-      play() {
-        this.setup();
-        this.source.start(this.context.currentTime);
-      }
-
-      stop() {
-        var ct = this.context.currentTime + 0.5;
-        this.gainNode.gain.exponentialRampToValueAtTime(0.001, ct);
-        this.source.stop(ct);
-      }
-    }
-
-    class Buffer {
-      constructor(context, urls) {
-        this.context = context;
-        this.urls = urls;
-        this.buffer = [];
-      }
-
-      loadSound(url, index) {
-        let request = new XMLHttpRequest();
-        request.open("get", url, true);
-        request.responseType = "arraybuffer";
-        let thisBuffer = this;
-        request.onload = function () {
-          // Safari doesn't support promise based syntax
-          thisBuffer.context.decodeAudioData(request.response, function (
-            buffer
-          ) {
-            thisBuffer.buffer[index] = buffer;
-          });
-        };
-        request.send();
-      }
-
-      getBuffer() {
-        this.urls.forEach((url, index) => {
-          this.loadSound(url, index);
-        });
-      }
-
-      getSound(index) {
-        return this.buffer[index];
-      }
-    }
-    let guitar = null;
-
-    function stopGuitar() {
-      guitar.stop();
-    }
-
-    const context = new (window.AudioContext || window.webkitAudioContext)();
-
-    const buffer = new Buffer(context, this.sounds);
-    buffer.getBuffer();
-    function playGuitar() {
-      let index = parseInt(this.dataset.audio) + 0;
-      index = index % (_this.sounds.length - 1);
-      guitar = new Guitar(context, buffer.getSound(index));
-      guitar.play();
-    }
-    const audioCard = document.querySelectorAll(".page-main-card");
-    console.log(audioCard);
-    audioCard.forEach((button) => {
-      button.addEventListener("mouseenter", playGuitar.bind(button));
-      button.addEventListener("mouseleave", stopGuitar);
-    });
-    const h = this.$createElement;
-    this.$message({
-      type: "success",
-      message: h("div", null, [
-        h("p", null, "audio文件加载中..."),
-        h("br", null),
-        h("i", null, "HAPPY DANCE！！"),
-      ]),
-    });
     console.log(
       "%c ",
       "background: url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2042085315,2752712319&fm=26&gp=0.jpg) no-repeat center;padding-left:640px;padding-bottom: 242px;"
@@ -198,6 +102,8 @@ export default {
       }
       this.$api.notes.uploadNote({ param: this.noteText }).then((res) => {
         console.log(res);
+        this.getNotesList();
+        this.noteText = "";
         this.$message({
           type: "success",
           message: "OH!!! I GOT IT!!",
@@ -206,6 +112,120 @@ export default {
       // contentrankApi.contentrank({ some: "???" }).then((res) => {
       //   console.log(res);
       // });
+    },
+    getNotesList(first = false) {
+      this.$api.notes.getNoteList().then((res) => {
+        this.noteList = res.data;
+        if (first) {
+          this.$nextTick(function () {
+            this.getDanceList();
+          });
+        }
+      });
+    },
+    getDanceList() {
+      let _this = this;
+      class Guitar {
+        constructor(context, buffer) {
+          this.context = context;
+          this.buffer = buffer;
+        }
+
+        setup() {
+          this.gainNode = this.context.createGain();
+          this.source = this.context.createBufferSource();
+          this.source.buffer = this.buffer;
+          this.source.connect(this.gainNode);
+          this.gainNode.connect(this.context.destination);
+
+          this.gainNode.gain.setValueAtTime(0.8, this.context.currentTime);
+        }
+
+        play() {
+          this.setup();
+          this.source.start(this.context.currentTime);
+        }
+
+        stop() {
+          var ct = this.context.currentTime + 0.5;
+          this.gainNode.gain.exponentialRampToValueAtTime(0.001, ct);
+          this.source.stop(ct);
+        }
+      }
+
+      class Buffer {
+        constructor(context, urls) {
+          this.context = context;
+          this.urls = urls;
+          this.buffer = [];
+        }
+
+        loadSound(url, index) {
+          let request = new XMLHttpRequest();
+          request.open("get", url, true);
+          request.responseType = "arraybuffer";
+          let thisBuffer = this;
+          request.onload = function () {
+            // Safari doesn't support promise based syntax
+            thisBuffer.context.decodeAudioData(request.response, function (
+              buffer
+            ) {
+              thisBuffer.buffer[index] = buffer;
+              if (index >= _this.sounds.length - 1) {
+                _this.$message({
+                  type: "success",
+                  message: "音乐文件加载完成...",
+                });
+              }
+            });
+          };
+          request.send();
+        }
+
+        getBuffer() {
+          this.urls.forEach((url, index) => {
+            this.loadSound(url, index);
+          });
+        }
+
+        getSound(index) {
+          return this.buffer[index];
+        }
+      }
+      let guitar = null;
+
+      function stopGuitar() {
+        console.log("stop");
+        guitar.stop();
+      }
+
+      const context = new (window.AudioContext || window.webkitAudioContext)();
+
+      const buffer = new Buffer(context, this.sounds);
+      buffer.getBuffer();
+      function playGuitar() {
+        let index = parseInt(this.dataset.audio) + 0;
+        index = index % (_this.sounds.length - 1);
+        guitar = new Guitar(context, buffer.getSound(index));
+        guitar.play();
+      }
+      // const audioCard = document.querySelectorAll(".page-main-card");
+      const audioCard = document.getElementsByClassName("page-main-card");
+      console.log(audioCard.length);
+      audioCard.forEach((button) => {
+        console.log("...");
+        button.addEventListener("mouseenter", playGuitar.bind(button));
+        button.addEventListener("mouseleave", stopGuitar);
+      });
+      const h = this.$createElement;
+      this.$message({
+        type: "success",
+        message: h("div", null, [
+          h("p", null, "audio文件加载中..."),
+          h("br", null),
+          h("i", null, "HAPPY DANCE！！"),
+        ]),
+      });
     },
   },
 };
