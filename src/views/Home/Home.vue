@@ -1,17 +1,10 @@
 <template>
-  <div class="home" @click="handleSubmit">
+  <div class="home">
     <el-card class="page-main-card" data-audio="0" shadow="hover">
       <template slot="header">
-        <el-button type="danger" icon="el-icon-edit" size="small"
-          >写完了</el-button
-        >
+        <el-button type="danger" icon="el-icon-edit" size="small" @click="handleSubmit">写完了</el-button>
       </template>
-      <el-input
-        type="textarea"
-        placeholder="写点什么..."
-        :rows="2"
-        v-model="noteText"
-      ></el-input>
+      <el-input type="textarea" placeholder="写点什么..." :rows="2" v-model="noteText"></el-input>
     </el-card>
 
     <el-card
@@ -19,11 +12,13 @@
       shadow="hover"
       v-for="item in noteList"
       :key="item.id"
-      :data-audio="item.id + 1"
+      :data-audio="parseInt(item.id) + 1"
       @click="handleClick"
     >
-      <div slot="header">{{ item.date }}</div>
-      <div>{{ item.note }}</div>
+      <div slot="header">{{ item.create_date.split('T')[0] }}</div>
+      <div>
+        <span class="font-color-gradient">{{ item.note_detail }}</span>
+      </div>
     </el-card>
   </div>
 </template>
@@ -35,12 +30,7 @@ export default {
   data() {
     return {
       noteText: "",
-      noteList: [
-        { id: 0, date: "2010.1.2", note: "what" },
-        { id: 1, date: "2010.1.2", note: "what" },
-        { id: 2, date: "2010.1.2", note: "what" },
-        { id: 3, date: "2010.1.2", note: "what" }
-      ],
+      noteList: [],
       sounds: [
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/G4.mp3",
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/A4.mp3",
@@ -71,12 +61,16 @@ export default {
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/d_G6.mp3",
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/d_A6.mp3",
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/d_C7.mp3",
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/d_D7.mp3"
-      ]
+        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/d_D7.mp3",
+      ],
     };
   },
   created() {
     console.time("1");
+
+    this.$api.notes.getNoteList().then((res) => {
+      this.noteList = res.data;
+    });
   },
   mounted() {
     let _this = this;
@@ -120,9 +114,9 @@ export default {
         request.open("get", url, true);
         request.responseType = "arraybuffer";
         let thisBuffer = this;
-        request.onload = function() {
+        request.onload = function () {
           // Safari doesn't support promise based syntax
-          thisBuffer.context.decodeAudioData(request.response, function(
+          thisBuffer.context.decodeAudioData(request.response, function (
             buffer
           ) {
             thisBuffer.buffer[index] = buffer;
@@ -157,31 +151,63 @@ export default {
       guitar = new Guitar(context, buffer.getSound(index));
       guitar.play();
     }
-    let audioCard = document.querySelectorAll(".page-main-card");
-    audioCard.forEach(button => {
+    const audioCard = document.querySelectorAll(".page-main-card");
+    console.log(audioCard);
+    audioCard.forEach((button) => {
       button.addEventListener("mouseenter", playGuitar.bind(button));
       button.addEventListener("mouseleave", stopGuitar);
     });
+    const h = this.$createElement;
     this.$message({
       type: "success",
-      message: `audio文件加载中...
-      \n\r
-      HAPPY DANCE！！！`
+      message: h("div", null, [
+        h("p", null, "audio文件加载中..."),
+        h("br", null),
+        h("i", null, "HAPPY DANCE！！"),
+      ]),
     });
+    console.log(
+      "%c ",
+      "background: url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2042085315,2752712319&fm=26&gp=0.jpg) no-repeat center;padding-left:640px;padding-bottom: 242px;"
+    );
     console.timeEnd("1");
   },
+  // beforeDestroy() {
+  //   let audioCard = document.querySelectorAll(".page-main-card");
+  //   audioCard.forEach((button) => {
+  //     button.removeEventListener("mouseenter", playGuitar.bind(button));
+  //     button.removeEventListener("mouseleave", stopGuitar);
+  //   });
+  // },
   methods: {
     handleClick(e) {
       console.log(e.target);
     },
     handleSubmit() {
-      console.log("???");
-      this.$api.notes.uploadNote({ params: "???" }).then(res => {
+      const h = this.$createElement;
+      if (this.noteText === "") {
+        this.$message({
+          type: "error",
+          message: h("div", null, [
+            h("p", null, "OOP...クソ！！！"),
+            h("br", null),
+            h("i", null, "不会打字？？？"),
+          ]),
+        });
+        return;
+      }
+      this.$api.notes.uploadNote({ param: this.noteText }).then((res) => {
         console.log(res);
+        this.$message({
+          type: "success",
+          message: "OH!!! I GOT IT!!",
+        });
       });
-      console.log("ok");
-    }
-  }
+      // contentrankApi.contentrank({ some: "???" }).then((res) => {
+      //   console.log(res);
+      // });
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -202,6 +228,7 @@ $purple: #6477b9;
     &::before,
     &::after {
       box-sizing: inherit;
+      pointer-events: none;
       content: "";
       position: absolute;
       width: 100%;
@@ -236,6 +263,22 @@ $purple: #6477b9;
     &:hover {
       transform: translateX(-52%);
       // background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+    }
+    .font-color-gradient {
+      background: linear-gradient(
+        to right,
+        #ef498b,
+        #2775b6,
+        #12aa9c,
+        #2b312c,
+        #f8df72,
+        #4d4030,
+        #ef632b,
+        #d42517,
+        #5d3131
+      );
+      -webkit-background-clip: text;
+      color: transparent;
     }
   }
   .page-main-note {

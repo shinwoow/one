@@ -6,6 +6,8 @@ import axios from "axios";
 import router from "@/router";
 import store from "@/store";
 import { Message } from "element-ui";
+import baseUrl from './base'
+import base from '@/axios/base';
 
 // 封装提示组件
 const Tip = (msg: string) => {
@@ -64,9 +66,9 @@ const errorHandle = (status: Number, other: any) => {
 const instance = axios.create({ timeout: 1000 * 12 });
 
 // 设置post请求头为json格式接收
-instance.defaults.headers.post["Content-Type"] =
-  "application/json;charset=UTF-8";
-instance.defaults.baseURL = "127.0.0.1:3000/api";
+// instance.defaults.headers.post["Content-Type"] =
+//   "application/json;charset=UTF-8";
+instance.defaults.baseURL = process.env.NODE_ENV === "development" ? baseUrl.dev : baseUrl.dev;
 /**
  * 请求拦截器
  * 每次请求前，如果存在token则在请求头中携带token
@@ -80,17 +82,18 @@ instance.interceptors.request.use(
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     // const token = store.state.token;
     // token && (config.headers.Authorization = token);
-    console.log(config)
     return config;
   },
 
-  error => Promise.reject(error)
+  error => {
+    Promise.reject(error)
+  }
 );
 
 // 响应拦截器
 instance.interceptors.response.use(
   // 请求成功
-  res => (res.status === 200 ? Promise.resolve(res) : Promise.reject(res)),
+  res => (res.status === 200 ? Promise.resolve(res.data) : Promise.reject(res)),
   // 请求失败
   error => {
     const { response } = error;
