@@ -23,6 +23,9 @@ export default Vue.extend({});
     #7e1671 80%,
     #fff 100%
   );
+  position: -webkit-sticky;
+  position: sticky;
+  top: -1px;
   .header-left {
     position: relative;
     top: 50%;
@@ -36,7 +39,7 @@ export default Vue.extend({});
       cursor: pointer;
       &:hover {
         top: -4px;
-        color: rgba($color: #fff, $alpha: 1.0);
+        color: rgba($color: #fff, $alpha: 1);
       }
     }
   }
