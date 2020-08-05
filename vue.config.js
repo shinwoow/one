@@ -12,6 +12,7 @@ module.exports = {
   indexPath: "index.html",
   filenameHashing: true,
   runtimeCompiler: false,
+  productionSourceMap: false,
   transpileDependencies: [],
   pwa: {
     iconPaths: {
