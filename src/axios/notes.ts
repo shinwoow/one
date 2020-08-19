@@ -29,10 +29,15 @@ const notes = {
   getNoteList() {
     return instance.get(`${baseURL}/getNoteList`)
   },
-  
+
   // 提交随笔
   uploadNote(params: Object) {
     return instance.post(`${baseURL}/uploadNote`, QS.stringify(params));
+  },
+
+  // 获取other的随笔列表
+  getOtherNoteList() {
+    return instance.get(`${baseURL}/getOtherNoteList`)
   }
 };
 
